@@ -1,7 +1,4 @@
-﻿// PkgCmdID.cs
-// MUST match PkgCmdID.h
-
-namespace MSBuildTargetsVsExtension
+﻿namespace MSBuildTargetsVsExtension
 {
     static class PkgCmdIDList
     {
