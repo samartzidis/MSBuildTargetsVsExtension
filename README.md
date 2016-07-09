@@ -6,6 +6,8 @@ Allows the execution of custom MSbuild targets (added to your .csproj file) from
 
 Examples include creating a Nuget or Chocolatey package from your project, publishing a site with custom actions, cleaning the project output folders, etc.
 
+The MSBuild output is formatted and redirected to the Visual Studio Output window.
+
 ## Examples:
 
 ### Target for creating a Nuget package from a C# project file:
