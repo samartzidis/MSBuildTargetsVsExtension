@@ -32,3 +32,6 @@ The MSBuild output is formatted and redirected to the Visual Studio Output windo
 </Target>
 ```
 
+## Building
+For building the project you will need Visual Studio 2015 with Visual Studio Extensibility Tools.
+
