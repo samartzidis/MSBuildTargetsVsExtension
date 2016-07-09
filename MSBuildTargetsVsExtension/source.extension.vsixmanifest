@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="137da963-074e-4dcf-a87a-34857204d497" Version="1.0.1" Language="en-US" Publisher="George Samartzidis" />
+    <Identity Id="137da963-074e-4dcf-a87a-34857204d497" Version="1.0.2" Language="en-US" Publisher="George Samartzidis" />
     <DisplayName>MSBuildTargets</DisplayName>
-    <Description xml:space="preserve">MSBuild Targets Visual Studio Extension.</Description>
+    <Description xml:space="preserve">MSBuild Targets Visual Studio Extension. Allows the execution of custom MSBuild targets added to your .csproj file from within the Visual Studio IDE, by right clicking on a Project item in Solution Explorer.</Description>
     <Icon>Resources\Package.ico</Icon>
     <Tags>MSBuild</Tags>
   </Metadata>

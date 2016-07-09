@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.12.0"
              mc:Ignorable="d" Height="159.739"
-             Title="MSBuildTargetsVsExtension"
+             Title="MSBuildTargets"
              Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}" Width="255.623" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False" Icon="Resources/target.png">
     <Grid Margin="0,0,0,-1">
         <ComboBox x:Name="TargetsComboBox" Margin="10,41,10,0" VerticalAlignment="Top"/>
