@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="137da963-074e-4dcf-a87a-34857204d497" Version="1.0.1.0" Language="en-US" Publisher="George Samartzidis" />
-    <DisplayName>MSBuildTargetsVsExtension</DisplayName>
-    <Description xml:space="preserve">MSBuildTargetsVsExtension.</Description>
+    <Identity Id="137da963-074e-4dcf-a87a-34857204d497" Version="1.0.1" Language="en-US" Publisher="George Samartzidis" />
+    <DisplayName>MSBuildTargets</DisplayName>
+    <Description xml:space="preserve">MSBuild Targets Visual Studio Extension.</Description>
     <Icon>Resources\Package.ico</Icon>
+    <Tags>MSBuild</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Version="[12.0,15.0)" Id="Microsoft.VisualStudio.Pro" />

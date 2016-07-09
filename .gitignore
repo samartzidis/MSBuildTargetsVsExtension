@@ -3,3 +3,5 @@
 ################################################################################
 
 /MSBuildTargetsVsExtension/bin
+/MSBuildTargetsVsExtension/obj
+/.vs/MSBuildTargetsVsExtension/v14
