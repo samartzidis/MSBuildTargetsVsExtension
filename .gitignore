@@ -1,7 +1,0 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/MSBuildTargetsVsExtension/bin
-/MSBuildTargetsVsExtension/obj
-/.vs/MSBuildTargetsVsExtension/v14
