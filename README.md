@@ -5,7 +5,6 @@ Allows the execution of custom MSbuild targets (in your .csproj file) from the V
 Custom MSBuild target examples may include creating a Nuget or Chocolatey package from your project binaries, publishing a site with custom actions, cleaning the project output folders, etc.
 
 ![img2](img2.png)
-![img1](img1.png)
 
 ## Examples:
 
