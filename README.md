@@ -1,9 +1,10 @@
-# MSBuildTargetsVsExtension
-Visual Studio MSBuild Targets Integration
+# MSBuild Targets Visual Studio Extension
 
-Allows the execution of custom MSbuild targets from the Visual Studio IDE in a manner similar to the Eclipse and Ant integration.
+[![img1](img1.png)]
 
-You can use this for exposing your custom project targets and executing them from the Visual Studio IDE such as creating a Nuget or Chocolatey package, publishing a site, cleaning output folders, etc. 
+Allows the execution of your custom MSbuild targets (added to your .csproj file) from the Visual Studio IDE in a manner similar to the Eclipse and Ant integration.
+
+You can use this for exposing and executing custom project targets such as creating a Nuget or Chocolatey package, publishing a site, cleaning project output folders, etc.
 
 ## Examples:
 
