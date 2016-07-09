@@ -2,7 +2,7 @@
 
 ![img1](img1.png)
 
-Allows the execution of custom MSbuild targets (added to your .csproj file) from the Visual Studio IDE, in a manner similar to the Ant/Eclipse integration. The extension adds the "Execute Target..." menu item to the right-click context menu of the Project items in Solution Explorer.
+Allows the execution of custom MSbuild targets (added to your .csproj file) from the Visual Studio IDE, in a manner similar to the Eclipse and Ant targets integration. The extension adds the "Execute Target..." menu item to the right-click context menu of the Project items in Solution Explorer.
 
 ![img2](img2.png)
 
