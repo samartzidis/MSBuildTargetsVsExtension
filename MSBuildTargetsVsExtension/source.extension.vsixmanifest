@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="137da963-074e-4dcf-a87a-34857204d497" Version="1.0.1" Language="en-US" Publisher="George Samartzidis" />
     <DisplayName>MSBuildTargets</DisplayName>
-    <Description xml:space="preserve">MSBuild Targets Visual Studio Extension.</Description>
+    <Description xml:space="preserve">MSBuild Targets Visual Studio Extension. </Description>
     <Icon>Resources\Package.ico</Icon>
     <Tags>MSBuild</Tags>
   </Metadata>
