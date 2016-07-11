@@ -1,6 +1,6 @@
 # MSBuild Targets Visual Studio Extension
 
-Allows the execution of custom MSbuild targets (in your .csproj file) from the Visual Studio IDE. The extension adds the "Execute Target..." menu item to the right-click context menu of Projects in Solution Explorer. The MSBuild output is formatted and redirected to the Visual Studio Output window.
+Allows the execution of custom MSBuild targets (defined in the .csproj file) from within the Visual Studio IDE, by right clicking on the Project item in Solution Explorer.
 
 Custom MSBuild target examples may include creating a Nuget or Chocolatey package from your project binaries, publishing a site with custom actions, cleaning the project output folders, etc.
 
