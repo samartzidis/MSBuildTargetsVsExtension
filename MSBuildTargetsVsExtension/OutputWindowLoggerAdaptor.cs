@@ -5,14 +5,14 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace MSBuildTargetsVsExtension
 {
-    class VsOutputWindowLogger : Microsoft.Build.Framework.ILogger
+    internal class OutputWindowLoggerAdaptor : Microsoft.Build.Framework.ILogger
     {
-        readonly IVsOutputWindowPane _pane;
-        readonly MSBuildTargetsVsExtensionPackage _parent;
+        private readonly IVsOutputWindowPane _pane;
+        private readonly bool _showMessages;
 
-        public VsOutputWindowLogger(MSBuildTargetsVsExtensionPackage parent)
+        public OutputWindowLoggerAdaptor(bool showMessages)
         {
-            _parent = parent;
+            _showMessages = showMessages;
 
             var outWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
             var generalPaneGuid = VSConstants.GUID_BuildOutputWindowPane;
@@ -26,20 +26,20 @@ namespace MSBuildTargetsVsExtension
             eventSource.WarningRaised += eventSource_WarningRaised;
         }
 
-        void eventSource_WarningRaised(object sender, Microsoft.Build.Framework.BuildWarningEventArgs e)
+        private void eventSource_WarningRaised(object sender, Microsoft.Build.Framework.BuildWarningEventArgs e)
         {
             OutputString(EventArgsFormatter.FormatEventMessage(e, false, true));
         }
 
-        void eventSource_MessageRaised(object sender, Microsoft.Build.Framework.BuildMessageEventArgs e)
+        private void eventSource_MessageRaised(object sender, Microsoft.Build.Framework.BuildMessageEventArgs e)
         {
-            if (!_parent.ShowMessages || e.Importance < Microsoft.Build.Framework.MessageImportance.High)
+            if (!_showMessages || e.Importance < Microsoft.Build.Framework.MessageImportance.High)
                 return;
 
             OutputString(EventArgsFormatter.FormatEventMessage(e, false, true));
         }
 
-        void eventSource_ErrorRaised(object sender, Microsoft.Build.Framework.BuildErrorEventArgs e)
+        private void eventSource_ErrorRaised(object sender, Microsoft.Build.Framework.BuildErrorEventArgs e)
         {
             OutputString(EventArgsFormatter.FormatEventMessage(e, false, true));            
         }

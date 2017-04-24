@@ -14,19 +14,11 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System.IO;
 using System.Windows.Input;
 using System.Windows;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Framework;
 
 namespace MSBuildTargetsVsExtension
 {
-    /// <summary>
-    /// This is the class that implements the package exposed by this assembly.
-    ///
-    /// The minimum requirement for a class to be considered a valid package for Visual Studio
-    /// is to implement the IVsPackage interface and register itself with the shell.
-    /// This package uses the helper classes defined inside the Managed Package Framework (MPF)
-    /// to do it: it derives from the Package class that provides the implementation of the 
-    /// IVsPackage interface and uses the registration attributes defined in the framework to 
-    /// register itself and its components with the shell.
-    /// </summary>   
     [PackageRegistration(UseManagedResourcesOnly = true)] // This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is a package. 
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // This attribute is used to register the information needed to show this package in the Help/About dialog of Visual Studio.
     [ProvideMenuResource("Menus.ctmenu", 1)] // This attribute is needed to let the shell know that this package exposes some menus.
@@ -34,7 +26,7 @@ namespace MSBuildTargetsVsExtension
     public sealed class MSBuildTargetsVsExtensionPackage : Package
     {
         public bool ShowMessages { get; set; }
-        private VsOutputWindowLogger _vsOutputWindowLogger;
+
         private DTE2 _dte;
         private IVsUIShell _vsUiShell;
 
@@ -58,7 +50,6 @@ namespace MSBuildTargetsVsExtension
         {
             base.Initialize();
             
-            _vsOutputWindowLogger = new VsOutputWindowLogger(this);
             _dte = (DTE2)GetService(typeof(DTE));
             _vsUiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
 
@@ -88,7 +79,7 @@ namespace MSBuildTargetsVsExtension
 
             if (selectedItemCount > 1) //Multiple projects selected?
             {
-                var projects = new List<Project>();
+                var projects = new List<EnvDTE.Project>();
                 for (int k = 0; k < selectedItemCount; k++)
                 {
                     var selectedProject = _dte.SelectedItems.Item(k + 1).Project;
@@ -105,17 +96,13 @@ namespace MSBuildTargetsVsExtension
                 startupProjectProperty.Value = _dte.SelectedItems.Item(1).Project.Name;
             }
 
-            if (debugging)
-                _dte.ExecuteCommand("Debug.Start");
-            else
-                _dte.ExecuteCommand("Debug.StartWithoutDebugging");
-           
+            _dte.ExecuteCommand(debugging ? "Debug.Start" : "Debug.StartWithoutDebugging");
         }
 
         private void ShowToolWindow(object sender, EventArgs e)
         {
             var targetNamesCount = new SortedDictionary<string, int>();
-            var selectedProjects = new List<Project>();
+            var selectedProjects = new List<EnvDTE.Project>();
 
             var projCount = _dte.SelectedItems.Count;            
             for (var k = 1; k <= projCount; k++) //Iterate through all selected items
@@ -123,7 +110,7 @@ namespace MSBuildTargetsVsExtension
                 var selectedProject = _dte.SelectedItems.Item(k).Project;
                 selectedProjects.Add(selectedProject); //Add to selectedProjects
 
-                var evalProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.LoadProject(selectedProject.FullName);
+                var evalProject = ProjectCollection.GlobalProjectCollection.LoadProject(selectedProject.FullName);
                 var execProject = evalProject.CreateProjectInstance();
 
                 foreach (var target in execProject.Targets)
@@ -138,7 +125,7 @@ namespace MSBuildTargetsVsExtension
                     if (ignoreFolders.Any(t => Helpers.IsPathSubpathOf(t, targetFilePath)))
                         continue;
 
-                    var targetName = string.Format("{0}", target.Value.Name);
+                    var targetName = $"{target.Value.Name}";
 
                     if (targetNamesCount.ContainsKey(targetName))
                         targetNamesCount[targetName]++;
@@ -153,70 +140,82 @@ namespace MSBuildTargetsVsExtension
             foreach (var item in commonTargets)
                 selectTargetsWindow.ItemsComboBox.Items.Add(item);
             selectTargetsWindow.ItemsComboBox.SelectedIndex = 0;
-            
+
             if (selectTargetsWindow.ShowDialog() == true)
             {
                 var targetName = (string)selectTargetsWindow.ItemsComboBox.SelectedItem;
 
-                Cursor previousCursor = Mouse.OverrideCursor;
+                var previousCursor = Mouse.OverrideCursor;
                 Mouse.OverrideCursor = Cursors.Wait;
-                System.Threading.Tasks.Task.Run(() => 
-                {                    
-                    ExecuteMsBuildTarget(targetName, selectedProjects);
-                })
-                .ContinueWith((t) => 
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    ExecuteTarget(selectedProjects, targetName);
+                }).ContinueWith(t =>
                 {
                     Mouse.OverrideCursor = previousCursor;
                 }, System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 
-        private void ExecuteMsBuildTarget(string targetName, IEnumerable<Project> projects)
-        {            
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                _vsOutputWindowLogger.OutputString(string.Format("------ Executing: '{0}' for selected project(s) ------", targetName));
-                _dte.StatusBar.Text = "Executing target...";
-            }));
-            
+        private void ExecuteTarget(IEnumerable<EnvDTE.Project> selectedProjects, string targetName)
+        {
+            var output = new OutputWindowLoggerAdaptor(true);
             var succeeded = 0;
             var failed = 0;
-            foreach(var project in projects)
+            foreach (var project in selectedProjects)
             {
                 project.Save(); //Save the project in Visual Studio
 
-                var evalProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.LoadProject(project.FullName);
-                var execProject = evalProject.CreateProjectInstance();
-
                 var config = project.ConfigurationManager.ActiveConfiguration;
-                execProject.SetProperty("Configuration", config.ConfigurationName);
-                execProject.SetProperty("Platform", config.PlatformName);
+                output.OutputString($"------ Executing: '{project.Name} -> {targetName}' for '{config.ConfigurationName}|{config.PlatformName}' ------");
 
-                var solutionDir = Path.GetDirectoryName(_dte.Solution.FullName);
-                execProject.SetProperty("SolutionDir", solutionDir);
-
-                var msg = string.Format("------ Executing: '{0} -> {1}' for configuration '{2}' and platform '{3}' ------", project.Name, targetName, config.ConfigurationName, config.PlatformName);
-                Application.Current.Dispatcher.Invoke(new Action(() => _vsOutputWindowLogger.OutputString(msg)));
-
-                var buildResult = execProject.Build(targetName, new[] { _vsOutputWindowLogger });
-                if (buildResult)
+                using (var buildManager = new BuildManager())
                 {
-                    msg = string.Format("========== '{0} -> {1}' succeeded ==========", project.Name, targetName);
-                    succeeded++;
+                    var res = buildManager.Build(CreateBuildParameters(), CreateBuildRequestData(project, targetName));
+                    if (res.OverallResult == BuildResultCode.Failure)
+                    {
+                        output.OutputString($"========== '{project.Name} -> {targetName}' FAILED ==========");
+                        failed++;
+                    }
+                    else
+                    {
+                        output.OutputString($"========== '{project.Name} -> {targetName}' succeeded ==========");
+                        succeeded++;
+                    }
                 }
+
+                if (failed == 0)
+                    output.OutputString($"========== {targetName}: {succeeded} project(s) succeeded ==========");
                 else
-                {
-                    msg = string.Format("========== '{0} -> {1}' failed ==========", project.Name, targetName);
-                    failed++;
-                }
-                Application.Current.Dispatcher.Invoke(new Action(() => _vsOutputWindowLogger.OutputString(msg) ));
+                    output.OutputString($"========== {targetName}: {succeeded} project(s) succeeded, {failed} project(s) FAILED ==========");
             }
-
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                _dte.StatusBar.Text = "Target finished";
-                _vsOutputWindowLogger.OutputString(string.Format("========== {0}: {1} project(s) succeeded, {2} project(s) failed ==========", targetName, succeeded, failed));
-            }));       
         }
+
+        private BuildParameters CreateBuildParameters()
+        {
+            var projectCollection = new ProjectCollection();
+            var buildParameters = new BuildParameters(projectCollection)
+            {
+                Loggers = new List<ILogger>() { new OutputWindowLoggerAdaptor(ShowMessages) }
+            };
+
+            return buildParameters;
+        }
+
+        private BuildRequestData CreateBuildRequestData(EnvDTE.Project proj, string target)
+        {
+            var globalProperties = new Dictionary<string, string>();
+
+            var config = proj.ConfigurationManager.ActiveConfiguration;
+            globalProperties["Configuration"] = config.ConfigurationName;
+            globalProperties["Platform"] = config.PlatformName.Replace(" ", "");
+
+            var solutionDir = Path.GetDirectoryName(_dte.Solution.FullName);
+            globalProperties["SolutionDir"] = solutionDir;
+
+            var buildRequest = new BuildRequestData(proj.FullName, globalProperties, null, new[] { target }, null, BuildRequestDataFlags.ReplaceExistingProjectInstance);
+            return buildRequest;
+        }
+
     }
 }

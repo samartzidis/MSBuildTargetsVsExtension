@@ -161,7 +161,7 @@
     <Compile Include="SelectTargetsWindow.xaml.cs">
       <DependentUpon>SelectTargetsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VsOutputWindowLogger.cs" />
+    <Compile Include="OutputWindowLoggerAdaptor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VSPackage.resx">
