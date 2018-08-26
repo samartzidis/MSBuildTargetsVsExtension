@@ -119,13 +119,13 @@ namespace MSBuildTargetsVsExtension
                     var ignoreFolders = new[] {
                         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Microsoft.NET"),
                         Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
-                    };                    
+                    };
+
+                    var targetName = $"{target.Value.Name}";
                     var targetFilePath = Path.GetDirectoryName(target.Value.FullPath);
 
                     if (ignoreFolders.Any(t => Helpers.IsPathSubpathOf(t, targetFilePath)))
-                        continue;
-
-                    var targetName = $"{target.Value.Name}";
+                        continue; // Ignore
 
                     if (targetNamesCount.ContainsKey(targetName))
                         targetNamesCount[targetName]++;
