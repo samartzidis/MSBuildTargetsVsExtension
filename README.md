@@ -29,5 +29,5 @@ It supports custom MSBuild targets for all types of Visual Studio project files,
 ```
 
 ## Building
-For building the project you will need Visual Studio 2015 with Visual Studio Extensibility Tools.
+For building the project you will need Visual Studio 2017 with the Extensibility Tools.
 
