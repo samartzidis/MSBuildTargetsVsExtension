@@ -5,7 +5,6 @@
         <DisplayName>MSBuildTargets</DisplayName>
         <Description xml:space="preserve">Allows the execution of custom MSBuild project targets (defined in any type of Visual Studio project file) from within the Visual Studio IDE by right clicking on the Project item in Solution Explorer.</Description>
         <MoreInfo>https://github.com/samartzidis/MSBuildTargetsVsExtension</MoreInfo>
-        <GettingStartedGuide>https://github.com/samartzidis/MSBuildTargetsVsExtension</GettingStartedGuide>
         <Icon>Resources\Package.ico</Icon>
         <Tags>MSBuild</Tags>
     </Metadata>
