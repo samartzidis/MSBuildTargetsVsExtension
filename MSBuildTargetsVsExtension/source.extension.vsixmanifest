@@ -3,7 +3,7 @@
     <Metadata>
         <Identity Id="137da963-074e-4dcf-a87a-34857204d497" Version="1.0.6" Language="en-US" Publisher="George Samartzidis" />
         <DisplayName>MSBuildTargets</DisplayName>
-        <Description xml:space="preserve">Allows the execution of custom MSBuild project targets (defined in the Visual Studio project file) from within the Visual Studio IDE by right clicking on the Project item in Solution Explorer.</Description>
+        <Description xml:space="preserve">Allows the execution of custom MSBuild project targets (defined in any type of Visual Studio project file) from within the Visual Studio IDE by right clicking on the Project item in Solution Explorer.</Description>
         <Icon>Resources\Package.ico</Icon>
         <Tags>MSBuild</Tags>
     </Metadata>
