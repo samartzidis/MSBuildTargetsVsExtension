@@ -1,8 +1,8 @@
 # MSBuild Targets Visual Studio Extension
 
-Allows the execution of custom MSBuild targets (defined in the .csproj file) from within the Visual Studio IDE, by right clicking on the Project item in Solution Explorer.
+Allows the execution of custom MSBuild project targets (defined in any type of Visual Studio project file) from within the Visual Studio IDE by right clicking on the Project item in Solution Explorer.
 
-Custom MSBuild target examples may include creating a Nuget or Chocolatey package from your project binaries, publishing a site with custom actions, cleaning the project output folders, etc.
+It supports custom MSBuild targets for all types of Visual Studio project files, including C# (.csproj), C/C++ (.vcxproj), NodeJs (.njsproj), etc. Custom MSBuild target examples for C# projects may include creating a Nuget package, publishing a site with custom actions, cleaning output folders or for NodeJs (.njsproj) projects calling arbitrary npm/yarn targets from within Visual Studio.
 
 ![img2](img2.png)
 
@@ -29,5 +29,5 @@ Custom MSBuild target examples may include creating a Nuget or Chocolatey packag
 ```
 
 ## Building
-For building the project you will need Visual Studio 2015 with Visual Studio Extensibility Tools.
+For building the project you will need Visual Studio 2017 with the Extensibility Tools.
 
