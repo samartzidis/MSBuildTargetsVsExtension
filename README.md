@@ -28,6 +28,4 @@ It supports custom MSBuild targets for all types of Visual Studio project files,
 </Target>
 ```
 
-## Building
-For building the project you will need Visual Studio 2017 with the Extensibility Tools.
 
