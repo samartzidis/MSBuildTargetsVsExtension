@@ -104,6 +104,15 @@ namespace MSBuildTargetsVsExtension
             var targetNamesCount = new SortedDictionary<string, int>();
             var selectedProjects = new List<EnvDTE.Project>();
 
+            //Ignore standard targets as we dont want to display a huge target list
+            var winDrive = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+            var winDir = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+            var ignoreFolders = new[] {
+                Path.Combine(winDir, "Microsoft.NET"),
+                Path.Combine(winDrive, "Program Files (x86)"),
+                Path.Combine(winDrive, "Program Files")
+            };
+
             var projCount = _dte.SelectedItems.Count;            
             for (var k = 1; k <= projCount; k++) //Iterate through all selected items
             {
@@ -115,12 +124,6 @@ namespace MSBuildTargetsVsExtension
 
                 foreach (var target in execProject.Targets)
                 {
-                    //Ignore standard targets as we dont want to display a huge target list
-                    var ignoreFolders = new[] {
-                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Microsoft.NET"),
-                        Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
-                    };
-
                     var targetName = $"{target.Value.Name}";
                     var targetFilePath = Path.GetDirectoryName(target.Value.FullPath);
 
