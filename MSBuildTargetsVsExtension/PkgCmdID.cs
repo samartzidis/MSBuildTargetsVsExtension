@@ -1,6 +1,6 @@
 ﻿namespace MSBuildTargetsVsExtension
 {
-    static class PkgCmdIDList
+    static class PkgCmdID
     {
         public const uint CmdStart = 0x100;
         public const uint CmdStartDebugging = 0x101;

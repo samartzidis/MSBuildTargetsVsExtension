@@ -1,12 +1,17 @@
 ﻿<Window x:Class="MSBuildTargetsVsExtension.SelectTargetsWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.12.0"
-             mc:Ignorable="d" Height="159.739"
-             Title="MSBuildTargets"
-             Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}" Width="255.623" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False" Icon="Resources/target.png">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+        mc:Ignorable="d" Height="159.739"
+        Title="MSBuildTargets"
+        Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}" 
+        Width="255.623" 
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize" 
+        ShowInTaskbar="False" 
+        Icon="Resources/target.png">
     <Grid Margin="0,0,0,-1">
         <ComboBox x:Name="TargetsComboBox" Margin="10,41,10,0" VerticalAlignment="Top"/>
         <Button Content="Cancel" x:Name="CancelButton" HorizontalAlignment="Right" Margin="0,68,10,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="2.058,1.201" Click="CancelButton_Click"/>
