@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -12,6 +14,8 @@ namespace MSBuildTargetsVsExtension
 
         public OutputWindowLoggerAdaptor(bool showMessages)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             _showMessages = showMessages;
 
             var outWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
@@ -46,8 +50,19 @@ namespace MSBuildTargetsVsExtension
 
         public void OutputString(string msg)
         {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+
+                _pane.OutputStringThreadSafe(msg + Environment.NewLine);
+            }));
+        }
+
+        public void Activate()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             _pane.Activate();
-            _pane.OutputString(msg + Environment.NewLine);            
         }
 
         public string Parameters

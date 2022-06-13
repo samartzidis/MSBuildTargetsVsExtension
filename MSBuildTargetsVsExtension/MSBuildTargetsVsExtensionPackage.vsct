@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h"/>
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidMSBuildTargetsVsExtensionPkg">
+
+    <Groups>
+      <Group guid="guidMSBuildTargetsVsExtensionCmdSet" id="menuGroup" priority="0x0000">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_MULTIPROJ"/>
+      </Group>
+      <Group guid="guidMSBuildTargetsVsExtensionCmdSet" id="menuGroup" priority="0x0000">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidMSBuildTargetsVsExtensionCmdSet" id="cmdStart" priority="0x0100" type="Button">
+        <Parent guid="guidMSBuildTargetsVsExtensionCmdSet" id="menuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Start Without Debugging</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidMSBuildTargetsVsExtensionCmdSet" id="cmdStartDebugging" priority="0x0101" type="Button">
+        <Parent guid="guidMSBuildTargetsVsExtensionCmdSet" id="menuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
+        <Strings>
+          <ButtonText>Start Debugging</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidMSBuildTargetsVsExtensionCmdSet" id="cmdSelectTarget" priority="0x0102" type="Button">
+        <Parent guid="guidMSBuildTargetsVsExtensionCmdSet" id="menuGroup" />
+        <Icon guid="guidImages" id="bmpPic3" />
+        <Strings>
+          <ButtonText>Execute Target...</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPic3, bmpPic4, bmpPic5"/>
+    </Bitmaps>
+
+  </Commands>
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidMSBuildTargetsVsExtensionPkg" value="{137da963-074e-4dcf-a87a-34857204d497}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidMSBuildTargetsVsExtensionCmdSet" value="{9fc10e11-28c8-45b9-abac-8aa4ec3a4346}">
+      <IDSymbol name="menuGroup" value="0x1020" />
+      <IDSymbol name="cmdStart" value="0x0100" />
+      <IDSymbol name="cmdStartDebugging" value="0x0101" />
+      <IDSymbol name="cmdSelectTarget" value="0x0102" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{ff6ea808-7f78-4588-b83a-d95b82f6904f}" >
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPic3" value="3" />
+      <IDSymbol name="bmpPic4" value="4" />
+      <IDSymbol name="bmpPic5" value="5" />
+      <IDSymbol name="bmpPic6" value="6" />
+    </GuidSymbol>
+
+  </Symbols>
+
+</CommandTable>
